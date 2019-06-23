@@ -7,9 +7,6 @@
     </div>
 </template>
 <script>
-import io from "socket.io-client";
-import axios from "axios";
-
 export default {
     name: "wedo2",
     components: {}
