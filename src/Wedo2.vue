@@ -4,12 +4,36 @@
         <div>
             <a href="/">home</a>
         </div>
+        <div id="motor">
+            <div>
+                <button @click="onMotor">Motor</button>
+            </div>
+        </div>
     </div>
 </template>
 <script>
+import io from "socket.io-client";
+import axios from "axios";
+
 export default {
     name: "wedo2",
-    components: {}
+    components: {},
+    methods: {
+        onMotor() {
+            axios.get("/apis/wedo2/motor").then(function() {});
+        }
+    },
+    created: function() {
+        var socket = io(
+            [window.location.hostname, ":", process.env.VUE_APP_WS_PORT].join(
+                ""
+            ),
+            {
+                path: "/ws"
+            }
+        );
+        socket.on("wedo2.motor", function() {});
+    }
 };
 </script>
 <style>
