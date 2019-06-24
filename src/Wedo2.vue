@@ -9,6 +9,11 @@
                 <button @click="onMotor">Motor</button>
             </div>
         </div>
+        <div id="light">
+            <div>
+                <button @click="onLed">LED</button>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -21,6 +26,9 @@ export default {
     methods: {
         onMotor() {
             axios.get("/apis/wedo2/motor").then(function() {});
+        },
+        onLed() {
+            axios.get("/apis/wedo2/led").then(function() {});
         }
     },
     created: function() {
@@ -33,6 +41,7 @@ export default {
             }
         );
         socket.on("wedo2.motor", function() {});
+        socket.on("wedo2.led", function() {});
     }
 };
 </script>
