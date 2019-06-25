@@ -20,6 +20,14 @@
                 <img :src="sequenceSrc">
             </div>
         </div>
+        <div id="detectColor">
+            <div>
+                <button @click="onDetectColor">Detect Color</button>
+            </div>
+            <div class="image">
+                <img :src="detectColorSrc">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -33,7 +41,8 @@ export default {
     data: function() {
         return {
             imageSrc: "",
-            sequenceSrc: ""
+            sequenceSrc: "",
+            detectColorSrc: ""
         };
     },
     methods: {
@@ -42,6 +51,9 @@ export default {
         },
         onSequence() {
             axios.get("/apis/picamera/sequence").then(function() {});
+        },
+        onDetectColor() {
+            axios.get("/apis/picamera/detectColor").then(function() {});
         }
     },
     created: function() {
@@ -69,6 +81,13 @@ export default {
             if (data.code === 0) {
                 if (data.file) {
                     cmp.sequenceSrc = data.file;
+                }
+            }
+        });
+        socket.on("picamera.detectColor", function(data) {
+            if (data.code === 0) {
+                if (data.file) {
+                    cmp.detectColorSrc = data.file;
                 }
             }
         });
