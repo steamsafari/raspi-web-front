@@ -28,6 +28,16 @@
                 <img :src="detectColorSrc">
             </div>
         </div>
+        <div id="detectGesture">
+            <div>
+                <button @click="onDetectGesture">Detect Gesture</button>
+            </div>
+            <ul class="list">
+                <li v-for="gesture in detectedGestures">
+                    <div>{{gesture}}</div>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -42,7 +52,8 @@ export default {
         return {
             imageSrc: "",
             sequenceSrc: "",
-            detectColorSrc: ""
+            detectColorSrc: "",
+            detectedGestures: []
         };
     },
     methods: {
@@ -54,6 +65,11 @@ export default {
         },
         onDetectColor() {
             axios.get("/apis/picamera/detectColor").then(function() {});
+        },
+        onDetectGesture() {
+            axios.get("/apis/picamera/detectGesture").then(() => {
+                this.detectedGestures.splice(0, this.detectedGestures.length);
+            });
         }
     },
     created: function() {
@@ -91,6 +107,13 @@ export default {
                 }
             }
         });
+        socket.on("picamera.detectGesture", function(rsp) {
+            if (rsp.code === 0) {
+                if (rsp.data) {
+                    cmp.detectedGestures.push(rsp.data);
+                }
+            }
+        });
     }
 };
 </script>
@@ -103,5 +126,9 @@ export default {
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+}
+ul {
+    list-style-type: none;
+    padding-left: 0;
 }
 </style>
