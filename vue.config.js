@@ -17,12 +17,12 @@ module.exports = {
             title: '树莓派Web控制台',
             chunks: ['chunk-vendors', 'chunk-common', 'main']
         },
-        picamera: {
-            entry: 'src/picamera.js',
-            template: 'public/picamera.html',
-            filename: 'picamera.html',
+        camera: {
+            entry: 'src/camera.js',
+            template: 'public/camera.html',
+            filename: 'camera.html',
             title: '树莓派Web控制台_摄像头',
-            chunks: ['chunk-vendors', 'chunk-common', 'picamera']
+            chunks: ['chunk-vendors', 'chunk-common', 'camera']
         },
         wedo2: {
             entry: 'src/wedo2.js',
