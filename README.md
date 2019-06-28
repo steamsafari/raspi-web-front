@@ -1,4 +1,7 @@
 # raspi-web-front
+树莓派支持计算机视觉
+
+通过计算机视觉控制LEGO（WeDo2.0）
 
 ## Project setup
 ```

@@ -87,7 +87,9 @@ export default {
             });
         },
         onOcr() {
-            axios.get("/apis/camera/ocr").then(function() {});
+            axios.get("/apis/camera/ocr").then(() => {
+                this.ocrResult.splice(0, this.ocrResult.length);
+            });
         }
     },
     created: function() {
@@ -103,40 +105,39 @@ export default {
         socket.on("news", function() {
             socket.emit("my other event", { my: "data" });
         });
-        var cmp = this;
-        socket.on("camera.capture", function(data) {
-            if (data.code === 0) {
-                if (data.file) {
-                    cmp.imageSrc = data.file;
-                }
+        socket.on("camera.capture", rst => {
+            if (rst.code === 0 && rst.file) {
+                this.imageSrc = rst.file;
             }
         });
-        socket.on("camera.sequence", function(data) {
-            if (data.code === 0) {
-                if (data.file) {
-                    cmp.sequenceSrc = data.file;
-                }
+        socket.on("camera.sequence", function(rst) {
+            if (rst.code === 0 && rst.file) {
+                this.sequenceSrc = rst.file;
             }
         });
-        socket.on("camera.detectColor", function(data) {
-            if (data.code === 0) {
-                if (data.file) {
-                    cmp.detectColorSrc = data.file;
-                }
+        socket.on("camera.detectColor", rst => {
+            if (rst.code === 0 && rst.file) {
+                this.detectColorSrc = rst.file;
             }
         });
-        socket.on("camera.detectGesture", function(rsp) {
-            if (rsp.code === 0) {
-                if (rsp.data) {
-                    cmp.detectedGestures.push(rsp.data);
-                }
+        socket.on("camera.detectGesture", rst => {
+            if (rst.code === 0 && rst.data) {
+                this.detectedGestures.push(rst.data);
             }
         });
-        socket.on("camera.ocr", function(rsp) {
-            if (rsp.code === 0) {
-                if (rsp.file) {
-                    cmp.ocrSrc = rsp.file;
-                }
+        socket.on("camera.ocr.start", rst => {
+            if (rst.code === 0 && rst.file) {
+                this.ocrSrc = rst.file;
+            }
+        });
+        socket.on("camera.ocr.scan", rst => {
+            if (rst.code === 0 && rst.data) {
+                this.ocrResult.push(rst.data);
+            }
+        });
+        socket.on("camera.ocr.exit", rst => {
+            if (rst.code === 0) {
+                this.ocrResult.push('exit');
             }
         });
     }
